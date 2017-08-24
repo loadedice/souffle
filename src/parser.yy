@@ -121,6 +121,16 @@
 %token COMPONENT                 "component declaration"
 %token INSTANTIATE               "component instantiation"
 %token NUMBER_TYPE               "numeric type declaration"
+%token U8_TYPE                   "unsigned 8 bit integer type declaration"
+%token U16_TYPE                  "unsigned 16 bit integer type declaration"
+%token U32_TYPE                  "unsigned 32 bit integer type declaration"
+%token U64_TYPE                  "unsigned 64 bit integer type declaration"
+%token I8_TYPE                   "signed 8 bit integer type declaration"
+%token I16_TYPE                  "signed 16 bit integer type declaration"
+%token I32_TYPE                  "signed 32 bit integer type declaration"
+%token I64_TYPE                  "signed 64 bit integer type declaration"
+%token F32_TYPE                  "32 bit floating point type declaration"
+%token F64_TYPE                  "64 bit floating point type declaration"
 %token SYMBOL_TYPE               "symbolic type declaration"
 %token AS                        "type cast"
 %token NIL                       "nil reference"
@@ -269,6 +279,47 @@ type_id
 /* Type Declaration */
 type
   : NUMBER_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  /* Currently all new types are the same as "number" was */
+  | I8_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  | I16_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  | I32_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  | I64_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  | U8_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  | U16_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  | U32_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  | U64_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  | F32_TYPE IDENT {
+        $$ = new AstPrimitiveType($2, true);
+        $$->setSrcLoc(@$);
+    }
+  | F64_TYPE IDENT {
         $$ = new AstPrimitiveType($2, true);
         $$->setSrcLoc(@$);
     }
