@@ -351,7 +351,8 @@ public:
     const Type& getType(const identifier& ident) const;
 
     const Type& getNumberType() const {
-        return getType("number");
+        // NOTE: This isn't going to be right always...
+        return getType("i32");
     }
 
     const Type& getSymbolType() const {

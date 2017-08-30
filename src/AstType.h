@@ -146,6 +146,7 @@ public:
     }
 };
 
+enum PrimitiveTypes { number, symbol, i8, i16, i32, i64, u8, u16, u32, u64, f32, f64 };
 /**
  * A primitive type is named type that can either be a sub-type of
  * the build-in number or symbol type. Primitive types are the most
@@ -153,25 +154,35 @@ public:
  */
 class AstPrimitiveType : public AstType {
     /** Indicates whether it is a number (true) or a symbol (false) */
-    bool num;
+    PrimitiveTypes num;
 
 public:
     /** Creates a new primitive type */
-    AstPrimitiveType(const AstTypeIdentifier& name, bool num = false) : AstType(name), num(num) {}
+    AstPrimitiveType(const AstTypeIdentifier& name, PrimitiveTypes num = symbol) : AstType(name), num(num) {}
 
     /** Tests whether this type is a numeric type */
     bool isNumeric() const {
-        return num;
+        return num == number || num == i8 || num == i16 || num == i32 || num == i64 || num == u8 ||
+               num == u16 || num == u32 || num == u64 || num == f32 || num == f64;
+    }
+
+    /** Tests whether this type is a signed integer type */
+    bool isSigned() const {
+        return num == i8 || num == i16 || num == i32 || num == i64;
+    }
+
+    bool isUnsigned() const {
+        return num == u8 || num == u16 || num == u32 || num == u64;
     }
 
     /** Tests whether this type is a symbolic type */
     bool isSymbolic() const {
-        return !num;
+        return num == symbol;
     }
 
     /** Prints a summary of this type to the given stream */
     void print(std::ostream& os) const override {
-        os << ".type " << getName() << (num ? "= number" : "");
+        os << ".type " << getName() << (num == number ? "= number" : "");
     }
 
     /** Creates a clone if this AST sub-structure */

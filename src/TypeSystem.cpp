@@ -78,6 +78,16 @@ void TypeEnvironment::clear() {
 
     // re-initialize type environment
     createType<PredefinedType>("number");
+    createType<PredefinedType>("i8");
+    createType<PredefinedType>("i16");
+    createType<PredefinedType>("i32");
+    createType<PredefinedType>("i64");
+    createType<PredefinedType>("u8");
+    createType<PredefinedType>("u16");
+    createType<PredefinedType>("u32");
+    createType<PredefinedType>("u64");
+    createType<PredefinedType>("f32");
+    createType<PredefinedType>("f64");
     createType<PredefinedType>("symbol");
 }
 

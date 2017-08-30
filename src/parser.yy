@@ -279,52 +279,52 @@ type_id
 /* Type Declaration */
 type
   : NUMBER_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::number);
         $$->setSrcLoc(@$);
     }
   /* Currently all new types are the same as "number" was */
   | I8_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::i8);
         $$->setSrcLoc(@$);
     }
   | I16_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::i16);
         $$->setSrcLoc(@$);
     }
   | I32_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::i32);
         $$->setSrcLoc(@$);
     }
   | I64_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::i64);
         $$->setSrcLoc(@$);
     }
   | U8_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::u8);
         $$->setSrcLoc(@$);
     }
   | U16_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::u16);
         $$->setSrcLoc(@$);
     }
   | U32_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::u32);
         $$->setSrcLoc(@$);
     }
   | U64_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::u64);
         $$->setSrcLoc(@$);
     }
   | F32_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::f32);
         $$->setSrcLoc(@$);
     }
   | F64_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, true);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::f64);
         $$->setSrcLoc(@$);
     }
   | SYMBOL_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, false);
+        $$ = new AstPrimitiveType($2, PrimitiveTypes::symbol);
         $$->setSrcLoc(@$);
     }
   | TYPE IDENT {
@@ -914,7 +914,7 @@ disjunction
         $$->disjunct(std::move(*$3));
         delete $3;
     }
- 
+
 /* Body */
 body
   : disjunction                        { $$ = $1;
