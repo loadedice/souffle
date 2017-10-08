@@ -178,6 +178,18 @@
 %token ATANH                     "atanh"
 %token LOG                       "log"
 %token EXP                       "exp"
+%token NUMBER_T                  "number type"
+%token SYMBOL_T                  "symbol type"
+%token I8                        "i8"
+%token I16                       "i16"
+%token I32                       "i32"
+%token I64                       "i64"
+%token U8                        "u8"
+%token U16                       "u16"
+%token U32                       "u32"
+%token U64                       "u64"
+%token F32                       "f32"
+%token F64                       "f64"
 
 %type <int>                              qualifiers
 %type <AstTypeIdentifier *>              type_id
@@ -346,6 +358,54 @@ type
         $$->setName($2);
         $$->setSrcLoc(@$);
     }
+  | TYPE IDENT COLON SYMBOL_T {
+        $$ = new AstPrimitiveType($2, BaseTypes::symbol);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON NUMBER_T {
+        $$ = new AstPrimitiveType($2, BaseTypes::number);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON I8 {
+        $$ = new AstPrimitiveType($2, BaseTypes::i8);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON I16 {
+        $$ = new AstPrimitiveType($2, BaseTypes::i16);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON I32 {
+        $$ = new AstPrimitiveType($2, BaseTypes::i32);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON I64 {
+        $$ = new AstPrimitiveType($2, BaseTypes::i64);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON U8 {
+        $$ = new AstPrimitiveType($2, BaseTypes::u8);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON U16 {
+        $$ = new AstPrimitiveType($2, BaseTypes::u16);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON U32 {
+        $$ = new AstPrimitiveType($2, BaseTypes::u32);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON U64 {
+        $$ = new AstPrimitiveType($2, BaseTypes::u64);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON F32 {
+        $$ = new AstPrimitiveType($2, BaseTypes::f32);
+        $$->setSrcLoc(@$);
+  }
+  | TYPE IDENT COLON F64 {
+        $$ = new AstPrimitiveType($2, BaseTypes::f64);
+        $$->setSrcLoc(@$);
+  }
 
 recordtype
   : IDENT COLON type_id {

@@ -36,12 +36,12 @@
     #include "ParserDriver.h"
     #include "RamTypes.h"
     #include "parser.hh"
-    
+
     #define register
 
     /* String Pool declarations */
     StringPool::hashentry *StringPool::hashtab[HASH_SIZE];
-    
+
 #define yylloc yyget_extra(yyscanner)->yylloc
 
 #define yyfilename yyget_extra(yyscanner)->yyfilename
@@ -80,7 +80,18 @@
 ".u64_type"                           { return yy::parser::make_U64_TYPE(yylloc); }
 ".f32_type"                           { return yy::parser::make_F32_TYPE(yylloc); }
 ".f64_type"                           { return yy::parser::make_F64_TYPE(yylloc); }
-".symbol_type"                        { return yy::parser::make_SYMBOL_TYPE(yylloc); }
+"i8"                                  { return yy::parser::make_I8(yylloc); }
+"i16"                                 { return yy::parser::make_I16(yylloc); }
+"i32"                                 { return yy::parser::make_I32(yylloc); }
+"i64"                                 { return yy::parser::make_I64(yylloc); }
+"u8"                                  { return yy::parser::make_U8(yylloc); }
+"u16"                                 { return yy::parser::make_U16(yylloc); }
+"u32"                                 { return yy::parser::make_U32(yylloc); }
+"u64"                                 { return yy::parser::make_U64(yylloc); }
+"f32"                                 { return yy::parser::make_F32(yylloc); }
+"f64"                                 { return yy::parser::make_F64(yylloc); }
+"number"                              { return yy::parser::make_NUMBER_T(yylloc); }
+"symbol"                              { return yy::parser::make_SYMBOL_T(yylloc); }
 ".override"                           { return yy::parser::make_OVERRIDE(yylloc); }
 ".pragma"                             { return yy::parser::make_PRAGMA(yylloc); }
 "band"                                { return yy::parser::make_BW_AND(yylloc); }
