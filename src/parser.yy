@@ -279,52 +279,52 @@ type_id
 /* Type Declaration */
 type
   : NUMBER_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::number);
+        $$ = new AstPrimitiveType($2, BaseTypes::number);
         $$->setSrcLoc(@$);
     }
   /* Currently all new types are the same as "number" was */
   | I8_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::i8);
+        $$ = new AstPrimitiveType($2, BaseTypes::i8);
         $$->setSrcLoc(@$);
     }
   | I16_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::i16);
+        $$ = new AstPrimitiveType($2, BaseTypes::i16);
         $$->setSrcLoc(@$);
     }
   | I32_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::i32);
+        $$ = new AstPrimitiveType($2, BaseTypes::i32);
         $$->setSrcLoc(@$);
     }
   | I64_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::i64);
+        $$ = new AstPrimitiveType($2, BaseTypes::i64);
         $$->setSrcLoc(@$);
     }
   | U8_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::u8);
+        $$ = new AstPrimitiveType($2, BaseTypes::u8);
         $$->setSrcLoc(@$);
     }
   | U16_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::u16);
+        $$ = new AstPrimitiveType($2, BaseTypes::u16);
         $$->setSrcLoc(@$);
     }
   | U32_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::u32);
+        $$ = new AstPrimitiveType($2, BaseTypes::u32);
         $$->setSrcLoc(@$);
     }
   | U64_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::u64);
+        $$ = new AstPrimitiveType($2, BaseTypes::u64);
         $$->setSrcLoc(@$);
     }
   | F32_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::f32);
+        $$ = new AstPrimitiveType($2, BaseTypes::f32);
         $$->setSrcLoc(@$);
     }
   | F64_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::f64);
+        $$ = new AstPrimitiveType($2, BaseTypes::f64);
         $$->setSrcLoc(@$);
     }
   | SYMBOL_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, PrimitiveTypes::symbol);
+        $$ = new AstPrimitiveType($2, BaseTypes::symbol);
         $$->setSrcLoc(@$);
     }
   | TYPE IDENT {

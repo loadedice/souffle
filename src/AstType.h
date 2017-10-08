@@ -146,48 +146,71 @@ public:
     }
 };
 
-enum PrimitiveTypes { number, symbol, i8, i16, i32, i64, u8, u16, u32, u64, f32, f64 };
+enum BaseTypes { number, symbol, i8, i16, i32, i64, u8, u16, u32, u64, f32, f64 };
 /**
  * A primitive type is named type that can either be a sub-type of
  * the build-in number or symbol type. Primitive types are the most
  * basic building blocks of souffle's type system.
  */
 class AstPrimitiveType : public AstType {
-    /** Indicates whether it is a number (true) or a symbol (false) */
-    PrimitiveTypes num;
+    /** Indicates the type */
+    BaseTypes base;
 
 public:
     /** Creates a new primitive type */
-    AstPrimitiveType(const AstTypeIdentifier& name, PrimitiveTypes num = symbol) : AstType(name), num(num) {}
+    AstPrimitiveType(const AstTypeIdentifier& name, BaseTypes base = symbol) : AstType(name), base(base) {}
 
-    /** Tests whether this type is a numeric type */
-    bool isNumeric() const {
-        return num == number || num == i8 || num == i16 || num == i32 || num == i64 || num == u8 ||
-               num == u16 || num == u32 || num == u64 || num == f32 || num == f64;
-    }
-
-    /** Tests whether this type is a signed integer type */
-    bool isSigned() const {
-        return num == i8 || num == i16 || num == i32 || num == i64;
-    }
-
-    bool isUnsigned() const {
-        return num == u8 || num == u16 || num == u32 || num == u64;
-    }
-
-    /** Tests whether this type is a symbolic type */
-    bool isSymbolic() const {
-        return num == symbol;
+    BaseTypes type() const {
+        return base;
     }
 
     /** Prints a summary of this type to the given stream */
     void print(std::ostream& os) const override {
-        os << ".type " << getName() << (num == number ? "= number" : "");
+        // os << ".type " << getName() << (num == number ? "= number" : "");
+        os << ".type " << getName();
+        switch (base) {
+            case number:
+                os << "= number";
+                break;
+            case symbol:
+                os << "= symbol";
+                break;
+            case i8:
+                os << "= i8";
+                break;
+            case i16:
+                os << "= i16";
+                break;
+            case i32:
+                os << "= i32";
+                break;
+            case i64:
+                os << "= i64";
+                break;
+            case u8:
+                os << "= u8";
+                break;
+            case u16:
+                os << "= u16";
+                break;
+            case u32:
+                os << "= u32";
+                break;
+            case u64:
+                os << "= u64";
+                break;
+            case f32:
+                os << "= f32";
+                break;
+            case f64:
+                os << "= f64";
+                break;
+        }
     }
 
     /** Creates a clone if this AST sub-structure */
     AstPrimitiveType* clone() const override {
-        return new AstPrimitiveType(getName(), num);
+        return new AstPrimitiveType(getName(), base);
     }
 
 protected:
@@ -195,7 +218,7 @@ protected:
     bool equal(const AstNode& node) const override {
         assert(dynamic_cast<const AstPrimitiveType*>(&node));
         const AstPrimitiveType& other = static_cast<const AstPrimitiveType&>(node);
-        return getName() == other.getName() && num == other.num;
+        return getName() == other.getName() && base == other.base;
     }
 };
 

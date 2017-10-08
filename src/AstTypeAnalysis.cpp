@@ -687,7 +687,7 @@ void TypeEnvironmentAnalysis::updateTypeEnvironment(const AstProgram& program) {
 
         // create type within type environment
         if (auto* t = dynamic_cast<const AstPrimitiveType*>(cur)) {
-            if (t->isNumeric()) {
+            if (t->type() != souffle::BaseTypes::symbol) {
                 env.createNumericType(cur->getName());
             } else {
                 env.createSymbolType(cur->getName());
