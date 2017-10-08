@@ -640,6 +640,14 @@ arg
         $$ = new AstBinaryFunctor(BinaryOp::EXP, std::unique_ptr<AstArgument>($1), std::unique_ptr<AstArgument>($3));
         $$->setSrcLoc(@$);
     }
+  | MAX LPAREN arg COMMA arg RPAREN {
+        $$ = new AstBinaryFunctor(BinaryOp::MAX, std::unique_ptr<AstArgument>($3), std::unique_ptr<AstArgument>($5));
+        $$->setSrcLoc(@$);
+    }
+  | MIN LPAREN arg COMMA arg RPAREN {
+        $$ = new AstBinaryFunctor(BinaryOp::MIN, std::unique_ptr<AstArgument>($3), std::unique_ptr<AstArgument>($5));
+        $$->setSrcLoc(@$);
+    }
   | CAT LPAREN arg COMMA arg RPAREN {
         $$ = new AstBinaryFunctor(BinaryOp::CAT, std::unique_ptr<AstArgument>($3), std::unique_ptr<AstArgument>($5));
         $$->setSrcLoc(@$);
@@ -723,7 +731,7 @@ arg
         $$->setSrcLoc(@$);
     }
   | SUM arg COLON LBRACE body RBRACE {
-        auto res = new AstAggregator(AstAggregator::min);
+        auto res = new AstAggregator(AstAggregator::sum);
         res->setTargetExpression(std::unique_ptr<AstArgument>($2));
         auto bodies = $5->toClauseBodies();
         if (bodies.size() != 1) {
