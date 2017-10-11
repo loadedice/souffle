@@ -406,6 +406,10 @@ type
         $$ = new AstPrimitiveType($2, BaseTypes::f64);
         $$->setSrcLoc(@$);
   }
+  | TYPE IDENT COLON NUMBER DOT DOT NUMBER {
+        $$ = new AstPrimitiveType($2, $4, $7);
+        $$->setSrcLoc(@$);
+  }
 
 recordtype
   : IDENT COLON type_id {

@@ -146,7 +146,7 @@ public:
     }
 };
 
-enum BaseTypes { number, symbol, i8, i16, i32, i64, u8, u16, u32, u64, f32, f64 };
+enum BaseTypes { number, symbol, i8, i16, i32, i64, u8, u16, u32, u64, f32, f64, rangetype };
 /**
  * A primitive type is named type that can either be a sub-type of
  * the build-in number or symbol type. Primitive types are the most
@@ -155,10 +155,14 @@ enum BaseTypes { number, symbol, i8, i16, i32, i64, u8, u16, u32, u64, f32, f64 
 class AstPrimitiveType : public AstType {
     /** Indicates the type */
     BaseTypes base;
+    int start;
+    int end;
 
 public:
     /** Creates a new primitive type */
     AstPrimitiveType(const AstTypeIdentifier& name, BaseTypes base = symbol) : AstType(name), base(base) {}
+    AstPrimitiveType(const AstTypeIdentifier& name, int start, int end)
+            : AstType(name), base(BaseTypes::rangetype), start(start), end(end) {}
 
     BaseTypes type() const {
         return base;
@@ -204,6 +208,9 @@ public:
                 break;
             case f64:
                 os << "= f64";
+                break;
+            case rangetype:
+                os << "= range(" << start << ".." << end << ")";
                 break;
         }
     }
