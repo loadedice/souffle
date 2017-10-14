@@ -294,47 +294,6 @@ type
         $$ = new AstPrimitiveType($2, BaseTypes::number);
         $$->setSrcLoc(@$);
     }
-  /* Currently all new types are the same as "number" was */
-  | I8_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::i8);
-        $$->setSrcLoc(@$);
-    }
-  | I16_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::i16);
-        $$->setSrcLoc(@$);
-    }
-  | I32_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::i32);
-        $$->setSrcLoc(@$);
-    }
-  | I64_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::i64);
-        $$->setSrcLoc(@$);
-    }
-  | U8_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::u8);
-        $$->setSrcLoc(@$);
-    }
-  | U16_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::u16);
-        $$->setSrcLoc(@$);
-    }
-  | U32_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::u32);
-        $$->setSrcLoc(@$);
-    }
-  | U64_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::u64);
-        $$->setSrcLoc(@$);
-    }
-  | F32_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::f32);
-        $$->setSrcLoc(@$);
-    }
-  | F64_TYPE IDENT {
-        $$ = new AstPrimitiveType($2, BaseTypes::f64);
-        $$->setSrcLoc(@$);
-    }
   | SYMBOL_TYPE IDENT {
         $$ = new AstPrimitiveType($2, BaseTypes::symbol);
         $$->setSrcLoc(@$);
@@ -358,52 +317,38 @@ type
         $$->setName($2);
         $$->setSrcLoc(@$);
     }
-  | TYPE IDENT COLON SYMBOL_T {
-        $$ = new AstPrimitiveType($2, BaseTypes::symbol);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON NUMBER_T {
-        $$ = new AstPrimitiveType($2, BaseTypes::number);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON I8 {
-        $$ = new AstPrimitiveType($2, BaseTypes::i8);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON I16 {
-        $$ = new AstPrimitiveType($2, BaseTypes::i16);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON I32 {
-        $$ = new AstPrimitiveType($2, BaseTypes::i32);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON I64 {
-        $$ = new AstPrimitiveType($2, BaseTypes::i64);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON U8 {
-        $$ = new AstPrimitiveType($2, BaseTypes::u8);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON U16 {
-        $$ = new AstPrimitiveType($2, BaseTypes::u16);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON U32 {
-        $$ = new AstPrimitiveType($2, BaseTypes::u32);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON U64 {
-        $$ = new AstPrimitiveType($2, BaseTypes::u64);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON F32 {
-        $$ = new AstPrimitiveType($2, BaseTypes::f32);
-        $$->setSrcLoc(@$);
-  }
-  | TYPE IDENT COLON F64 {
-        $$ = new AstPrimitiveType($2, BaseTypes::f64);
+  | TYPE IDENT COLON IDENT {
+        BaseTypes base;
+
+        if ($4 == "symbol") {
+            base = BaseTypes::symbol;
+        } else if ($4 == "number") {
+            base = BaseTypes::number;
+        } else if ($4 == "i8") {
+            base = BaseTypes::i8;
+        } else if ($4 == "i16") {
+            base = BaseTypes::i16;
+        } else if ($4 == "i32") {
+            base = BaseTypes::i32;
+        } else if ($4 == "i64") {
+            base = BaseTypes::i64;
+        } else if ($4 == "u8") {
+            base = BaseTypes::u8;
+        } else if ($4 == "u16") {
+            base = BaseTypes::u16;
+        } else if ($4 == "u32") {
+            base = BaseTypes::u32;
+        } else if ($4 == "u64") {
+            base = BaseTypes::u64;
+        } else if ($4 == "f32") {
+            base = BaseTypes::f32;
+        } else if ($4 == "f64") {
+            base = BaseTypes::f64;
+        } else {
+            driver.error(@4, "Unknown base type");
+        }
+
+        $$ = new AstPrimitiveType($2, base);
         $$->setSrcLoc(@$);
   }
   | TYPE IDENT COLON NUMBER DOT DOT NUMBER {
