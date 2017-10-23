@@ -110,6 +110,35 @@ public:
 };
 
 /**
+ * A range type, allowing only certain numerical values
+ */
+class RangeType : public Type {
+    // only allow type environments to create instances
+    friend class TypeEnvironment;
+
+    const int min;
+    const int max;
+
+    RangeType(const TypeEnvironment& environment, const AstTypeIdentifier& name, const int min, const int max)
+            : Type(environment, name), min(min), max(max) {}
+
+public:
+    void print(std::ostream& out) const override;
+
+    const int getMin() const {
+        return min;
+    }
+
+    const int getMax() const {
+        return max;
+    }
+
+    const bool inRange(int value) const {
+        return min < value && value < max;
+    }
+};
+
+/**
  * A union type combining a list of types into a new, aggregated type.
  */
 class UnionType : public Type {
@@ -334,6 +363,10 @@ public:
         return createType<PrimitiveType>(name, getSymbolType());
     }
 
+    RangeType& createRangeType(const identifier& name, const int min, const int max) {
+        return createType<RangeType>(name, min, max);
+    }
+
     UnionType& createUnionType(const identifier& name) {
         return createType<UnionType>(name);
     }
@@ -351,8 +384,7 @@ public:
     const Type& getType(const identifier& ident) const;
 
     const Type& getNumberType() const {
-        // NOTE: This isn't going to be right always...
-        return getType("i32");
+        return getType("number");
     }
 
     const Type& getSymbolType() const {
@@ -419,6 +451,16 @@ bool isRecordType(const Type& type);
  * Determines whether all the types in the given set are record types.
  */
 bool isRecordType(const TypeSet& s);
+
+/**
+ * Determines whether the given type is a record type.
+ */
+bool isRangeType(const Type& type);
+
+/**
+ * Determines whether all the types in the given set are record types.
+ */
+bool isRangeType(const TypeSet& s);
 
 /**
  * Determines whether the given type is a recursive type.

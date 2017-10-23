@@ -557,11 +557,9 @@ void AstSemanticChecker::checkRelationDeclaration(ErrorReport& report, const Typ
         AstTypeIdentifier typeName = attr->getTypeName();
 
         /* check whether type exists */
-        // NOTE: We should probably do this another way as it is quite messy
         if (typeName != "number" && typeName != "symbol" && !program.getType(typeName) && typeName != "i8" &&
-                typeName != "i16" && typeName != "i32" && typeName != "i64" && typeName != "u8" &&
-                typeName != "u16" && typeName != "u32" && typeName != "u64" && typeName != "f32" &&
-                typeName != "f64") {
+                typeName != "i16" && typeName != "i32" && typeName != "u8" && typeName != "u16" &&
+                typeName != "u32") {
             report.addError("Undefined type in attribute " + attr->getAttributeName() + ":" +
                                     toString(attr->getTypeName()),
                     attr->getSrcLoc());

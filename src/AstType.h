@@ -146,7 +146,7 @@ public:
     }
 };
 
-enum BaseTypes { number, symbol, i8, i16, i32, i64, u8, u16, u32, u64, f32, f64, rangetype };
+enum BaseTypes { number, symbol, i8, i16, i32, u8, u16, u32 };
 /**
  * A primitive type is named type that can either be a sub-type of
  * the build-in number or symbol type. Primitive types are the most
@@ -155,14 +155,10 @@ enum BaseTypes { number, symbol, i8, i16, i32, i64, u8, u16, u32, u64, f32, f64,
 class AstPrimitiveType : public AstType {
     /** Indicates the type */
     BaseTypes base;
-    int start;
-    int end;
 
 public:
     /** Creates a new primitive type */
     AstPrimitiveType(const AstTypeIdentifier& name, BaseTypes base = symbol) : AstType(name), base(base) {}
-    AstPrimitiveType(const AstTypeIdentifier& name, int start, int end)
-            : AstType(name), base(BaseTypes::rangetype), start(start), end(end) {}
 
     BaseTypes type() const {
         return base;
@@ -170,7 +166,6 @@ public:
 
     /** Prints a summary of this type to the given stream */
     void print(std::ostream& os) const override {
-        // os << ".type " << getName() << (num == number ? "= number" : "");
         os << ".type " << getName();
         switch (base) {
             case number:
@@ -188,9 +183,6 @@ public:
             case i32:
                 os << "= i32";
                 break;
-            case i64:
-                os << "= i64";
-                break;
             case u8:
                 os << "= u8";
                 break;
@@ -199,18 +191,6 @@ public:
                 break;
             case u32:
                 os << "= u32";
-                break;
-            case u64:
-                os << "= u64";
-                break;
-            case f32:
-                os << "= f32";
-                break;
-            case f64:
-                os << "= f64";
-                break;
-            case rangetype:
-                os << "= range(" << start << ".." << end << ")";
                 break;
         }
     }
@@ -226,6 +206,46 @@ protected:
         assert(dynamic_cast<const AstPrimitiveType*>(&node));
         const AstPrimitiveType& other = static_cast<const AstPrimitiveType&>(node);
         return getName() == other.getName() && base == other.base;
+    }
+};
+
+/**
+ * A range type
+ */
+class AstRangeType : public AstType {
+    /** Indicates min and max values for the range*/
+    int min;
+    int max;
+
+public:
+    /** Creates a new primitive type */
+    AstRangeType(const AstTypeIdentifier& name, int min, int max) : AstType(name), min(min), max(max) {}
+
+    // These only work if it is a rangetype
+    const int getMin() const {
+        return min;
+    }
+
+    const int getMax() const {
+        return max;
+    }
+
+    /** Prints a summary of this type to the given stream */
+    void print(std::ostream& os) const override {
+        os << ".type " << getName() << "= range(" << min << ".." << max << ")";
+    }
+
+    /** Creates a clone if this AST sub-structure */
+    AstRangeType* clone() const override {
+        return new AstRangeType(getName(), min, max);
+    }
+
+protected:
+    /** Implements the node comparison for this node type */
+    bool equal(const AstNode& node) const override {
+        assert(dynamic_cast<const AstRangeType*>(&node));
+        const AstRangeType& other = static_cast<const AstRangeType&>(node);
+        return getName() == other.getName() && min == other.min && max == other.max;
     }
 };
 

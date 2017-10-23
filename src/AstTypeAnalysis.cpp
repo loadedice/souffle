@@ -687,10 +687,10 @@ void TypeEnvironmentAnalysis::updateTypeEnvironment(const AstProgram& program) {
 
         // create type within type environment
         if (auto* t = dynamic_cast<const AstPrimitiveType*>(cur)) {
-            if (t->type() != souffle::BaseTypes::symbol) {
-                env.createNumericType(cur->getName());
-            } else {
+            if (t->type() == souffle::BaseTypes::symbol) {
                 env.createSymbolType(cur->getName());
+            } else {
+                env.createNumericType(cur->getName());
             }
         } else if (dynamic_cast<const AstUnionType*>(cur)) {
             // initialize the union
@@ -698,6 +698,9 @@ void TypeEnvironmentAnalysis::updateTypeEnvironment(const AstProgram& program) {
         } else if (dynamic_cast<const AstRecordType*>(cur)) {
             // initialize the record
             env.createRecordType(cur->getName());
+        } else if (auto* t = dynamic_cast<const AstRangeType*>(cur)) {
+            // initialize the range
+            env.createRangeType(t->getName(), t->getMin(), t->getMax());
         } else {
             std::cout << "Unsupported type construct: " << typeid(cur).name() << "\n";
             ASSERT(false && "Unsupported Type Construct!");

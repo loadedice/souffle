@@ -78,16 +78,12 @@ void TypeEnvironment::clear() {
 
     // re-initialize type environment
     createType<PredefinedType>("number");
-    createType<PredefinedType>("i8");
-    createType<PredefinedType>("i16");
-    createType<PredefinedType>("i32");
-    createType<PredefinedType>("i64");
-    createType<PredefinedType>("u8");
-    createType<PredefinedType>("u16");
-    createType<PredefinedType>("u32");
-    createType<PredefinedType>("u64");
-    createType<PredefinedType>("f32");
-    createType<PredefinedType>("f64");
+    createNumericType("i8");
+    createNumericType("i16");
+    createNumericType("i32");
+    createNumericType("u8");
+    createNumericType("u16");
+    createNumericType("u32");
     createType<PredefinedType>("symbol");
 }
 
@@ -151,6 +147,9 @@ struct TypeVisitor {
         if (auto* t = dynamic_cast<const RecordType*>(&type)) {
             return visitRecordType(*t);
         }
+        if (auto* t = dynamic_cast<const RangeType*>(&type)) {
+            return visitRangeType(*t);
+        }
         assert(false && "Unsupported type encountered!");
         return R();
     }
@@ -168,6 +167,10 @@ struct TypeVisitor {
     }
 
     virtual R visitRecordType(const RecordType& type) const {
+        return visitType(type);
+    }
+
+    virtual R visitRangeType(const RangeType& type) const {
         return visitType(type);
     }
 
@@ -220,6 +223,9 @@ bool isOfRootType(const Type& type, const Type& root) {
         }
         bool visitPrimitiveType(const PrimitiveType& type) const override {
             return type == root || type.getBaseType() == root || isOfRootType(type.getBaseType(), root);
+        }
+        bool visitRangeType(const RangeType& type) const override {
+            return type == root;
         }
         bool visitUnionType(const UnionType& type) const override {
             if (type.getElementTypes().empty()) {
@@ -307,6 +313,8 @@ std::string getTypeQualifier(const Type& type) {
                 str = "s:" + toString(type.getName());
             } else if (isRecordType(type)) {
                 str = "r:" + toString(type.getName());
+            } else if (isRangeType(type)) {
+                str = "range:" + toString(type.getName());
             } else {
                 ASSERT(false && "unknown type class");
             }
@@ -324,6 +332,14 @@ bool isNumberType(const Type& type) {
 
 bool isNumberType(const TypeSet& s) {
     return !s.empty() && !s.isAll() && all_of(s, (bool (*)(const Type&)) & isNumberType);
+}
+
+bool isRangeType(const Type& type) {
+    return dynamic_cast<const RangeType*>(&type);
+}
+
+bool isRangeType(const TypeSet& s) {
+    return !s.empty() && !s.isAll() && all_of(s, (bool (*)(const Type&)) & isRangeType);
 }
 
 bool isSymbolType(const Type& type) {

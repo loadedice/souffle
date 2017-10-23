@@ -124,13 +124,9 @@
 %token U8_TYPE                   "unsigned 8 bit integer type declaration"
 %token U16_TYPE                  "unsigned 16 bit integer type declaration"
 %token U32_TYPE                  "unsigned 32 bit integer type declaration"
-%token U64_TYPE                  "unsigned 64 bit integer type declaration"
 %token I8_TYPE                   "signed 8 bit integer type declaration"
 %token I16_TYPE                  "signed 16 bit integer type declaration"
 %token I32_TYPE                  "signed 32 bit integer type declaration"
-%token I64_TYPE                  "signed 64 bit integer type declaration"
-%token F32_TYPE                  "32 bit floating point type declaration"
-%token F64_TYPE                  "64 bit floating point type declaration"
 %token SYMBOL_TYPE               "symbolic type declaration"
 %token AS                        "type cast"
 %token NIL                       "nil reference"
@@ -183,13 +179,9 @@
 %token I8                        "i8"
 %token I16                       "i16"
 %token I32                       "i32"
-%token I64                       "i64"
 %token U8                        "u8"
 %token U16                       "u16"
 %token U32                       "u32"
-%token U64                       "u64"
-%token F32                       "f32"
-%token F64                       "f64"
 
 %type <int>                              qualifiers
 %type <AstTypeIdentifier *>              type_id
@@ -330,20 +322,12 @@ type
             base = BaseTypes::i16;
         } else if ($4 == "i32") {
             base = BaseTypes::i32;
-        } else if ($4 == "i64") {
-            base = BaseTypes::i64;
         } else if ($4 == "u8") {
             base = BaseTypes::u8;
         } else if ($4 == "u16") {
             base = BaseTypes::u16;
         } else if ($4 == "u32") {
             base = BaseTypes::u32;
-        } else if ($4 == "u64") {
-            base = BaseTypes::u64;
-        } else if ($4 == "f32") {
-            base = BaseTypes::f32;
-        } else if ($4 == "f64") {
-            base = BaseTypes::f64;
         } else {
             driver.error(@4, "Unknown base type");
         }
@@ -352,7 +336,7 @@ type
         $$->setSrcLoc(@$);
   }
   | TYPE IDENT COLON NUMBER DOT DOT NUMBER {
-        $$ = new AstPrimitiveType($2, $4, $7);
+        $$ = new AstRangeType($2, $4, $7);
         $$->setSrcLoc(@$);
   }
 
