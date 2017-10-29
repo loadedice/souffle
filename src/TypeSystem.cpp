@@ -33,6 +33,10 @@ void PrimitiveType::print(std::ostream& out) const {
     out << getName() << " <: " << baseType;
 }
 
+void RangeType::print(std::ostream& out) const {
+    out << getName() << " <: " << getMin() << ".." << getMax();
+}
+
 void UnionType::add(const Type& type) {
     assert(environment.isType(type));
     elementTypes.push_back(&type);
@@ -225,7 +229,7 @@ bool isOfRootType(const Type& type, const Type& root) {
             return type == root || type.getBaseType() == root || isOfRootType(type.getBaseType(), root);
         }
         bool visitRangeType(const RangeType& type) const override {
-            return type == root;
+            return type == root || isNumberType(root);
         }
         bool visitUnionType(const UnionType& type) const override {
             if (type.getElementTypes().empty()) {

@@ -712,7 +712,7 @@ void TypeEnvironmentAnalysis::updateTypeEnvironment(const AstProgram& program) {
         Type* type = env.getModifiableType(cur->getName());
         assert(type && "It should be there!");
 
-        if (dynamic_cast<const AstPrimitiveType*>(cur)) {
+        if (dynamic_cast<const AstPrimitiveType*>(cur) || dynamic_cast<const AstRangeType*>(cur)) {
             // nothing to do here
         } else if (auto* t = dynamic_cast<const AstUnionType*>(cur)) {
             // get type as union type
