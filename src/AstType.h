@@ -146,7 +146,7 @@ public:
     }
 };
 
-enum BaseTypes { number, symbol, i8, i16, i32, u8, u16, u32 };
+enum BaseTypes { number, symbol };
 /**
  * A primitive type is named type that can either be a sub-type of
  * the build-in number or symbol type. Primitive types are the most
@@ -173,24 +173,6 @@ public:
                 break;
             case symbol:
                 os << "= symbol";
-                break;
-            case i8:
-                os << "= i8";
-                break;
-            case i16:
-                os << "= i16";
-                break;
-            case i32:
-                os << "= i32";
-                break;
-            case u8:
-                os << "= u8";
-                break;
-            case u16:
-                os << "= u16";
-                break;
-            case u32:
-                os << "= u32";
                 break;
         }
     }

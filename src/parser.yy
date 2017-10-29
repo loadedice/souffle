@@ -311,30 +311,34 @@ type
         $$->setSrcLoc(@$);
     }
   | TYPE IDENT COLON IDENT {
-        BaseTypes base;
-
         if ($4 == "symbol") {
-            base = BaseTypes::symbol;
+            $$ = new AstPrimitiveType($2, BaseTypes::symbol);
+            $$->setSrcLoc(@$);
         } else if ($4 == "number") {
-            base = BaseTypes::number;
+            $$ = new AstPrimitiveType($2, BaseTypes::number);
+            $$->setSrcLoc(@$);
         } else if ($4 == "i8") {
-            base = BaseTypes::i8;
+            $$ = new AstRangeType($2, -128, 127);
+            $$->setSrcLoc(@$);
         } else if ($4 == "i16") {
-            base = BaseTypes::i16;
+            $$ = new AstRangeType($2, -32768, 32767);
+            $$->setSrcLoc(@$);
         } else if ($4 == "i32") {
-            base = BaseTypes::i32;
+            $$ = new AstRangeType($2, -2147483648, 2147483647);
+            $$->setSrcLoc(@$);
         } else if ($4 == "u8") {
-            base = BaseTypes::u8;
+            $$ = new AstRangeType($2, 0, 255);
+            $$->setSrcLoc(@$);
         } else if ($4 == "u16") {
-            base = BaseTypes::u16;
+            $$ = new AstRangeType($2, 0, 65535);
+            $$->setSrcLoc(@$);
         } else if ($4 == "u32") {
-            base = BaseTypes::u32;
+            $$ = new AstRangeType($2, 0, 4294967295);
+            $$->setSrcLoc(@$);
         } else {
             driver.error(@4, "Unknown base type");
         }
 
-        $$ = new AstPrimitiveType($2, base);
-        $$->setSrcLoc(@$);
   }
   | TYPE IDENT COLON NUMBER DOT DOT NUMBER {
         $$ = new AstRangeType($2, $4, $7);
