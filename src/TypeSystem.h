@@ -120,7 +120,9 @@ class RangeType : public Type {
     const int max;
 
     RangeType(const TypeEnvironment& environment, const AstTypeIdentifier& name, const int min, const int max)
-            : Type(environment, name), min(min), max(max) {}
+            : Type(environment, name), min(min), max(max) {
+        assert(max >= min && "Maximum range value must be larger than min");
+    }
 
 public:
     void print(std::ostream& out) const override;

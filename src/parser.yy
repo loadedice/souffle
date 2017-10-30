@@ -332,15 +332,18 @@ type
         } else if ($4 == "u16") {
             $$ = new AstRangeType($2, 0, 65535);
             $$->setSrcLoc(@$);
-        } else if ($4 == "u32") {
+        } /*else if ($4 == "u32") {
             $$ = new AstRangeType($2, 0, 4294967295);
             $$->setSrcLoc(@$);
-        } else {
+        } */ else {
             driver.error(@4, "Unknown base type");
         }
 
   }
   | TYPE IDENT COLON NUMBER DOT DOT NUMBER {
+        if ($4 > $7) {
+            driver.error(@7, "Maximum range value must be larger than or equal to minimum");
+        }
         $$ = new AstRangeType($2, $4, $7);
         $$->setSrcLoc(@$);
   }

@@ -82,12 +82,12 @@ void TypeEnvironment::clear() {
 
     // re-initialize type environment
     createType<PredefinedType>("number");
-    createNumericType("i8");
-    createNumericType("i16");
-    createNumericType("i32");
-    createNumericType("u8");
-    createNumericType("u16");
-    createNumericType("u32");
+    createRangeType("i8", -128, 127);
+    createRangeType("i16", -32768, 32767);
+    createRangeType("i32", -2147483648, 2147483647);
+    createRangeType("u8", 0, 255);
+    createRangeType("u16", 0, 65535);
+    // createRangeType("u32", 0, 4294967295);
     createType<PredefinedType>("symbol");
 }
 
@@ -229,6 +229,7 @@ bool isOfRootType(const Type& type, const Type& root) {
             return type == root || type.getBaseType() == root || isOfRootType(type.getBaseType(), root);
         }
         bool visitRangeType(const RangeType& type) const override {
+            // I don't think isNumberType part isn't as correct as it should be
             return type == root || isNumberType(root);
         }
         bool visitUnionType(const UnionType& type) const override {
