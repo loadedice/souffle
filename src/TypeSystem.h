@@ -135,8 +135,11 @@ public:
         return max;
     }
 
-    const bool inRange(int value) const {
-        return min < value && value < max;
+    bool canFit(const Type* child) const {
+        if (auto* t = dynamic_cast<const RangeType*>(child)) {
+            return min <= t->getMin() && max >= t->getMax();
+        }
+        return false;
     }
 };
 

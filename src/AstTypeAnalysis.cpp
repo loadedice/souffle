@@ -166,10 +166,10 @@ struct false_factory {
  * its value set and the || operation as its meet operation. Correspondingly,
  * the bottom value is {false} and the top value {true}.
  */
-struct bool_disjunct_lattic : public property_space<bool, bool_or, false_factory> {};
+struct bool_disjunct_lattice : public property_space<bool, bool_or, false_factory> {};
 
 /** A base type for analysis based on the boolean disjunct lattice */
-typedef AstConstraintAnalysisVar<bool_disjunct_lattic> BoolDisjunctVar;
+typedef AstConstraintAnalysisVar<bool_disjunct_lattice> BoolDisjunctVar;
 
 /** A base type for constraints on the boolean disjunct lattice */
 typedef std::shared_ptr<Constraint<BoolDisjunctVar>> BoolDisjunctConstraint;

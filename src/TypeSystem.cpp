@@ -229,8 +229,7 @@ bool isOfRootType(const Type& type, const Type& root) {
             return type == root || type.getBaseType() == root || isOfRootType(type.getBaseType(), root);
         }
         bool visitRangeType(const RangeType& type) const override {
-            // I don't think isNumberType part isn't as correct as it should be
-            return type == root || isNumberType(root);
+            return type == root || type.canFit(&root) || isNumberType(root);
         }
         bool visitUnionType(const UnionType& type) const override {
             if (type.getElementTypes().empty()) {
@@ -418,6 +417,14 @@ bool isSubtypeOf(const Type& a, const Type& b) {
         }
     }
 
+    // next - if a is a range type
+    if (isRangeType(a)) {
+        const RangeType* t = static_cast<const RangeType*>(&a);
+        if (t->canFit(&b)) {
+            return true;
+        }
+    }
+
     // next - if b is a union type
     if (isUnion(b)) {
         return isSubType(a, as<UnionType>(b));
@@ -448,6 +455,7 @@ TypeSet getLeastCommonSupertypes(const Type& a, const Type& b) {
     }
 
     // equally simple - check whether one is a sub-type of the other
+    std::cout << "LEAST COMMON SUPER TYPE\n";
     if (isSubtypeOf(a, b)) {
         return TypeSet(b);
     }
@@ -541,6 +549,16 @@ TypeSet getGreatestCommonSubtypes(const Type& a, const Type& b) {
         return TypeSet(a);
     }
 
+    TypeSet res;
+    // we have to treat this different for it to work, this is kinda hacky but it seems to work
+    if (isRangeType(a) && isRangeType(b)) {
+        if (isSubtypeOf(a, b)) {
+            return TypeSet(a);
+        }
+        // otherwise there is no common supertype
+        return res;
+    }
+
     // equally simple - check whether one is a sub-type of the other
     if (isSubtypeOf(a, b)) {
         return TypeSet(a);
@@ -550,7 +568,6 @@ TypeSet getGreatestCommonSubtypes(const Type& a, const Type& b) {
     }
 
     // last option: if both are unions with common sub-types
-    TypeSet res;
     if (isUnion(a) && isUnion(b)) {
         // collect common sub-types of union types
 
