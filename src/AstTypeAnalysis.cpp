@@ -475,6 +475,9 @@ TypeConstraint isSubtypeOf(const TypeVar& a, const Type& b) {
 
             TypeSet res;
             for (const Type& t : s) {
+                if (isRangeType(t) && isRangeType(b) && !isSubtypeOf(t, b)) {
+                    continue;
+                }
                 res.insert(getGreatestCommonSubtypes(t, b));
             }
 

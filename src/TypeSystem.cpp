@@ -550,14 +550,6 @@ TypeSet getGreatestCommonSubtypes(const Type& a, const Type& b) {
     }
 
     TypeSet res;
-    // we have to treat this different for it to work, this is kinda hacky but it seems to work
-    if (isRangeType(a) && isRangeType(b)) {
-        if (isSubtypeOf(a, b)) {
-            return TypeSet(a);
-        }
-        // otherwise there is no common supertype
-        return res;
-    }
 
     // equally simple - check whether one is a sub-type of the other
     if (isSubtypeOf(a, b)) {
