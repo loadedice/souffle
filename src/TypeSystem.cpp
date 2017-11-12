@@ -455,7 +455,6 @@ TypeSet getLeastCommonSupertypes(const Type& a, const Type& b) {
     }
 
     // equally simple - check whether one is a sub-type of the other
-    std::cout << "LEAST COMMON SUPER TYPE\n";
     if (isSubtypeOf(a, b)) {
         return TypeSet(b);
     }
