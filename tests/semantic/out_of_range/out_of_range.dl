@@ -1,0 +1,18 @@
+// Souffle - A Datalog Compiler
+// Copyright (c) 2017, The Souffle Developers. All rights reserved
+// Licensed under the Universal Permissive License v 1.0 as shown at:
+// - https://opensource.org/licenses/UPL
+// - <souffle root>/licenses/SOUFFLE-UPL.txt
+
+.type onetosix: 1..6
+
+.decl A(n:onetosix)
+// These are fine
+A(1).
+A(5).
+A(6).
+// These are not fine
+A(7).
+A(-7).
+A(-1).
+A(0).

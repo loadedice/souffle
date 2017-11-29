@@ -1,0 +1,7 @@
+Error: Unable to deduce type for variable x in file cant_fit2.dl at line 14
+B(x) :- A(x).
+--^-----------
+Error: Unable to deduce type for variable x in file cant_fit2.dl at line 14
+B(x) :- A(x).
+----------^---
+2 errors generated, evaluation aborted

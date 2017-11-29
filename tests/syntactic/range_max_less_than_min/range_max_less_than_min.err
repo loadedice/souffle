@@ -1,0 +1,4 @@
+Error: Maximum range value must be larger than or equal to minimum in file range_max_less_than_min.dl at line 7
+.type ran: 10..6
+---------------^-
+1 errors generated, evaluation aborted

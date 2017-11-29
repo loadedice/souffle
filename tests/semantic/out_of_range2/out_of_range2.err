@@ -1,0 +1,13 @@
+Error: Number constant not in range [1, 6] in file out_of_range2.dl at line 15
+A(7).
+--^---
+Error: Number constant not in range [1, 6] in file out_of_range2.dl at line 16
+A(-7).
+---^---
+Error: Number constant not in range [1, 6] in file out_of_range2.dl at line 17
+A(-1).
+---^---
+Error: Number constant not in range [1, 6] in file out_of_range2.dl at line 18
+A(0).
+--^---
+4 errors generated, evaluation aborted
