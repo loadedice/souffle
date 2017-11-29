@@ -1,0 +1,17 @@
+// Souffle - A Datalog Compiler
+// Copyright (c) 2017, The Souffle Developers. All rights reserved
+// Licensed under the Universal Permissive License v 1.0 as shown at:
+// - https://opensource.org/licenses/UPL
+// - <souffle root>/licenses/SOUFFLE-UPL.txt
+
+.type zerotosix:0..6
+.type zerototen:0..10
+
+.decl A(x:zerotosix)
+A(2).
+.output A
+
+.decl B(x:zerototen)
+B(x) :- A(x).
+B(9).
+.output B
